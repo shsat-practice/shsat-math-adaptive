@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SHSAT Practice — Mathematics (Form K)</title>
+<style>
+:root{
+  --ink:#16202e; --ink-soft:#5a6579; --ink-faint:#8b94a5;
+  --rule:#dde3ec; --canvas:#eef1f6; --card:#fff;
+  --accent:#1f5aa8; --accent-soft:#e9f0fa; --accent-deep:#16416f;
+  --amber:#8a6114; --amber-bg:#fdf3dd; --amber-line:#e7cf9a;
+  --danger:#b42318; --ok:#15803d;
+  --ui:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--canvas);color:var(--ink);font-family:var(--ui);
+     font-size:17px;line-height:1.5;-webkit-font-smoothing:antialiased}
+button{font-family:inherit}
+.wrap{max-width:1000px;margin:0 auto;padding:0 24px}
+
+.bar{position:sticky;top:0;z-index:20;background:var(--ink);color:#fff}
+.bar-in{max-width:1000px;margin:0 auto;padding:12px 24px;display:flex;
+        align-items:center;justify-content:space-between;gap:14px}
+.brand{font-size:14px;font-weight:600;letter-spacing:.02em}
+.brand span{color:#93a3bb;font-weight:500}
+.count{font-size:14px;color:#c2ccdb;font-variant-numeric:tabular-nums}
+.track{height:3px;background:#0d1725}
+.track i{display:block;height:100%;background:#5b9bd8;transition:width .25s ease}
+
+.card{background:var(--card);border:1px solid var(--rule);border-radius:10px;
+      padding:34px 42px;margin:28px 0}
+.eyebrow{display:flex;align-items:center;gap:10px;margin-bottom:18px}
+.qnum{font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+      color:var(--ink-faint)}
+.badge{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+       color:var(--amber);background:var(--amber-bg);border:1px solid var(--amber-line);
+       padding:2px 8px;border-radius:4px}
+h1{font-size:29px;line-height:1.25;margin:0 0 15px}
+h2{font-size:16px;font-weight:700;margin:26px 0 10px}
+.lede{color:var(--ink-soft);margin:0 0 20px}
+
+.stem{font-size:19px;line-height:1.6}
+.stem p{margin:0 0 12px}
+.stem ul{margin:10px 0 12px;padding-left:22px}
+.stem li{margin-bottom:5px}
+.disp{text-align:center;margin:18px 0;font-size:19px}
+.fig{text-align:center;margin:18px 0;color:var(--ink)}
+.fig svg{max-width:100%;height:auto}
+.frac{display:inline-block;vertical-align:middle;text-align:center;
+      font-size:.92em;line-height:1.15;margin:0 2px}
+.frac .num{display:block;padding:0 3px}
+.frac .den{display:block;border-top:1px solid currentColor;padding:0 3px}
+.ovl{border-top:1px solid currentColor}
+sup{font-size:.72em;vertical-align:super;line-height:0}
+.tbl-title{text-align:center;font-size:15px;margin-bottom:7px}
+table.data{border-collapse:collapse;margin:0 auto 14px}
+table.data th,table.data td{border:1px solid var(--ink);padding:6px 14px;
+      font-size:15.5px;text-align:center}
+
+.choices{margin-top:24px;display:flex;flex-direction:column;gap:10px}
+.choice{display:flex;align-items:flex-start;gap:13px;width:100%;text-align:left;
+        background:#fff;border:1.5px solid var(--rule);border-radius:8px;
+        padding:15px 18px;cursor:pointer;font-size:18.5px;line-height:1.55;color:var(--ink);
+        transition:border-color .12s,background .12s}
+.choice:hover{border-color:#b9c4d4;background:#fafbfd}
+.choice .ltr{flex:none;width:29px;height:29px;border-radius:50%;border:1.5px solid #c3ccd9;
+        display:flex;align-items:center;justify-content:center;font-size:14px;
+        font-weight:700;color:var(--ink-soft);margin-top:1px}
+.choice.on{border-color:var(--accent);background:var(--accent-soft)}
+.choice.on .ltr{background:var(--accent);border-color:var(--accent);color:#fff}
+.choice:focus-visible{outline:3px solid #9dc3ec;outline-offset:2px}
+
+.grid-in{margin-top:24px}
+.grid-in label{display:block;font-size:13px;font-weight:600;color:var(--ink-soft);
+       margin-bottom:8px}
+.grid-in input{width:240px;font-size:25px;font-family:var(--ui);font-weight:600;
+       padding:14px 16px;border:1.5px solid #c3ccd9;border-radius:8px;
+       text-align:center;letter-spacing:.04em}
+.grid-in input:focus{outline:none;border-color:var(--accent);
+       box-shadow:0 0 0 3px var(--accent-soft)}
+.hint{font-size:13px;color:var(--ink-faint);margin-top:9px}
+.paper-note{margin:16px 0 0;padding:14px 16px;border-left:4px solid #c9821f;
+     background:#fdf6ea;border-radius:0 7px 7px 0;font-size:16px;line-height:1.55}
+.paper-note b{color:#8a5a10}
+.badge.paper{background:#fdf0da;color:#8a5a10;border-color:#e6c48a}
+.paperflag{margin:0 0 20px;padding:13px 16px;border-left:4px solid #c9821f;
+     background:#fdf6ea;border-radius:0 7px 7px 0;font-size:15.5px}
+
+.actions{display:flex;align-items:center;justify-content:space-between;gap:14px;
+      margin-top:28px;padding-top:20px;border-top:1px solid var(--rule)}
+.note{font-size:13.5px;color:var(--ink-faint);max-width:400px}
+.btns{display:flex;align-items:center;gap:10px}
+.btn{border:none;border-radius:8px;padding:13px 26px;font-size:16px;font-weight:600;
+     cursor:pointer;transition:background .12s}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{background:var(--accent-deep)}
+.btn-ghost{background:none;color:var(--ink-soft);border:1.5px solid var(--rule);
+     padding:12px 18px}
+.btn-ghost:hover{background:#f3f5f9;color:var(--ink)}
+.btn:focus-visible{outline:3px solid #9dc3ec;outline-offset:2px}
+.arrow{width:62px;height:62px;border-radius:50%;border:none;background:var(--accent);
+     color:#fff;font-size:28px;line-height:1;cursor:pointer;display:flex;
+     align-items:center;justify-content:center;transition:background .12s,transform .12s}
+.arrow:hover{background:var(--accent-deep);transform:translateX(2px)}
+.arrow.finish{background:var(--ok)}
+.arrow.finish:hover{background:#136c34;transform:none}
+.arrow:focus-visible{outline:3px solid #9dc3ec;outline-offset:3px}
+
+.rules{list-style:none;padding:0;margin:0 0 6px}
+.rules li{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid var(--rule);
+      font-size:16px;color:var(--ink-soft)}
+.rules li:last-child{border-bottom:none}
+.rules b{color:var(--ink);font-weight:650;flex:none;width:146px}
+.stats{display:flex;gap:34px;margin:6px 0 22px;flex-wrap:wrap}
+.stat .k{font-size:12px;text-transform:uppercase;letter-spacing:.07em;color:var(--ink-faint)}
+.stat .v{font-size:30px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1.2}
+table.sheet{width:100%;border-collapse:collapse;margin-top:6px}
+table.sheet th{text-align:left;font-size:11.5px;letter-spacing:.07em;text-transform:uppercase;
+      color:var(--ink-faint);border-bottom:1.5px solid var(--rule);padding:8px 10px}
+table.sheet td{border-bottom:1px solid #eef1f6;padding:9px 11px;font-size:16px;
+      font-variant-numeric:tabular-nums}
+table.sheet td.q{color:var(--ink-faint);width:56px}
+table.sheet td.you{font-weight:650}
+.blank{color:var(--danger);font-weight:650}
+.right{color:var(--ok);font-weight:650}
+.wrong{color:var(--danger);font-weight:650}
+.sheetgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px 26px}
+@media(max-width:700px){.sheetgrid{grid-template-columns:1fr}}
+
+.modal{position:fixed;inset:0;z-index:60;background:rgba(16,24,38,.55);
+      display:flex;align-items:center;justify-content:center;padding:20px}
+.modal[hidden]{display:none}
+.modal-card{background:#fff;border-radius:12px;padding:26px 28px;max-width:420px;width:100%;
+      box-shadow:0 18px 50px rgba(10,18,32,.3)}
+.modal-card h3{margin:0 0 8px;font-size:18px}
+.modal-card p{margin:0 0 20px;color:var(--ink-soft);font-size:15px}
+.modal-btns{display:flex;justify-content:flex-end;gap:10px}
+
+.printhead{border-bottom:2px solid var(--ink);padding-bottom:10px;margin-bottom:18px}
+.ph-title{font-size:15px;font-weight:700}
+.ph-meta{font-size:13px;color:var(--ink-soft);margin-top:3px}
+.namefield{display:flex;align-items:center;gap:10px;margin:0 0 18px}
+.namefield label{font-size:13px;font-weight:600;color:var(--ink-soft)}
+.namefield input{flex:1;max-width:280px;font-family:var(--ui);font-size:15px;padding:8px 12px;
+      border:1.5px solid #c3ccd9;border-radius:8px}
+.namefield input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.tip{font-size:12.5px;color:var(--ink-faint);margin-top:12px}
+.missed{font-size:17px;font-weight:600;color:var(--danger);margin:0 0 4px;
+      font-variant-numeric:tabular-nums;line-height:1.6}
+.btns{flex-wrap:wrap;justify-content:flex-end}
+.rev-head{display:flex;align-items:center;justify-content:space-between;gap:12px;
+      flex-wrap:wrap;margin-bottom:4px}
+.verdict{font-size:14px;font-weight:650}
+.correct-note{margin-top:20px;padding:13px 16px;border-radius:8px;background:#f2f8f4;
+      border:1px solid #cfe6d8;font-size:16px}
+.correct-note b{color:var(--ok)}
+
+@media(max-width:640px){
+  .card{padding:22px 18px;border-radius:8px}
+  .bar-in{padding:9px 14px}.wrap{padding:0 12px}
+  h1{font-size:22px}.stem,.choice{font-size:16.5px}
+  .actions{flex-direction:column;align-items:stretch}
+  .btns{justify-content:space-between}.note{max-width:none}
+  .arrow{width:54px;height:54px;font-size:25px}
+}
+@media print{
+  @page{margin:14mm}
+  .bar,.track,.actions,.noprint,.modal,.namefield{display:none!important}
+  body{background:#fff;font-size:12px}
+  .wrap{max-width:none;padding:0}
+  .card{border:none;margin:0;padding:0;border-radius:0}
+  h1{font-size:18px;margin-bottom:6px}
+  h2{font-size:13px;margin:14px 0 6px}
+  .stats{gap:26px;margin:4px 0 12px}.stat .v{font-size:19px}
+  .sheetgrid{gap:0 18px}
+  table.sheet td,table.sheet th{padding:2.5px 7px;font-size:11px}
+  tr{page-break-inside:avoid}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<header class="bar" id="bar" hidden>
+  <div class="bar-in">
+    <div class="brand">SHSAT Practice <span>&middot; Mathematics &middot; Form K</span></div>
+    <div class="count" id="count">0 of 57 answered</div>
+  </div>
+</header>
+<div class="track" id="track" hidden><i id="trackbar" style="width:0%"></i></div>
+<main class="wrap" id="app"></main>
+<div class="modal" id="modal" hidden role="dialog" aria-modal="true" aria-labelledby="modal-h">
+  <div class="modal-card">
+    <h3 id="modal-h">Are you sure?</h3>
+    <p id="modal-p"></p>
+    <div class="modal-btns">
+      <button class="btn btn-ghost" id="modal-no">Cancel</button>
+      <button class="btn btn-primary" id="modal-yes">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+"use strict";
+
+var DATA = [{"type": "mc", "stem": "<p>What is the value of the expression below?</p><div class='disp'>&radic;<span class='ovl'>&nbsp;36 + 64&nbsp;</span></div>", "choices": [{"letter": "A", "html": "10"}, {"letter": "B", "html": "14"}, {"letter": "C", "html": "50"}, {"letter": "D", "html": "100"}], "answer": "A", "n": 1}, {"type": "mc", "stem": "<div class='disp'>0.486 &divide; 54 =</div>", "choices": [{"letter": "E", "html": "0.0009"}, {"letter": "F", "html": "0.009"}, {"letter": "G", "html": "0.09"}, {"letter": "H", "html": "0.9"}], "answer": "F", "n": 2}, {"type": "mc", "stem": "<p>Priya read 4 times as many pages as Deshawn read. Together they read 85 pages. How many pages did Priya read?</p>", "choices": [{"letter": "A", "html": "17"}, {"letter": "B", "html": "21"}, {"letter": "C", "html": "68"}, {"letter": "D", "html": "72"}], "answer": "C", "n": 3}, {"type": "grid", "stem": "<p>A single grain of a certain fertilizer weighs 35 milligrams. What is the weight of one grain, in grams?</p>", "choices": [], "answer": "0.035", "n": 4}, {"type": "mc", "stem": "<p>Line <i>p</i> is parallel to line <i>q</i>, and both lie in the same plane. How many points do line <i>p</i> and line <i>q</i> have in common?</p>", "choices": [{"letter": "A", "html": "0"}, {"letter": "B", "html": "1"}, {"letter": "C", "html": "2"}, {"letter": "D", "html": "Infinitely many"}], "answer": "A", "n": 5}, {"type": "mc", "stem": "<p>Nadia is taller than Omar but shorter than Priya. If <i>n</i>, <i>o</i>, and <i>p</i> represent their heights, respectively, which of the following is true?</p>", "choices": [{"letter": "E", "html": "<i>o</i> &lt; <i>n</i> &lt; <i>p</i>"}, {"letter": "F", "html": "<i>o</i> &lt; <i>p</i> &lt; <i>n</i>"}, {"letter": "G", "html": "<i>n</i> &lt; <i>o</i> &lt; <i>p</i>"}, {"letter": "H", "html": "<i>p</i> &lt; <i>n</i> &lt; <i>o</i>"}], "answer": "E", "n": 6}, {"type": "mc", "stem": "<p>How many inches are there in <i>y</i> yards and <i>f</i> feet? <i>(Note: 1 yard = 36 inches and 1 foot = 12 inches.)</i></p>", "choices": [{"letter": "A", "html": "36<i>y</i> + 12<i>f</i>"}, {"letter": "B", "html": "12(<i>y</i> + <i>f</i>)"}, {"letter": "C", "html": "36(<i>y</i> + <i>f</i>)"}, {"letter": "D", "html": "<span class=\"frac\"><span class=\"num\"><i>y</i></span><span class=\"den\">36</span></span> + 12<i>f</i>"}], "answer": "A", "n": 7}, {"type": "mc", "stem": "<div class='disp'>5<i>x</i> + 3 &minus; 8<i>x</i> = 9 &minus; 6<i>x</i> + 12</div><p>What is the value of <i>x</i> in the equation above?</p>", "choices": [{"letter": "E", "html": "6"}, {"letter": "F", "html": "4"}, {"letter": "G", "html": "<span class=\"frac\"><span class=\"num\">8</span><span class=\"den\">3</span></span>"}, {"letter": "H", "html": "&minus;6"}], "answer": "E", "n": 8}, {"type": "mc", "stem": "<p>If <span class=\"frac\"><span class=\"num\">4</span><span class=\"den\">9</span></span> of <i>M</i> is 216, what is <span class=\"frac\"><span class=\"num\">7</span><span class=\"den\">9</span></span> of <i>M</i>?</p>", "choices": [{"letter": "A", "html": "336"}, {"letter": "B", "html": "378"}, {"letter": "C", "html": "432"}, {"letter": "D", "html": "486"}], "answer": "B", "n": 9}, {"type": "mc", "stem": "<p>The table below shows five pairs of values for <i>x</i> and <i>y</i>.</p><table class='data'><tr><th><i>x</i></th><th><i>y</i></th></tr><tr><td>1</td><td>9</td></tr><tr><td>2</td><td>14</td></tr><tr><td>3</td><td>19</td></tr><tr><td>4</td><td>24</td></tr><tr><td>12</td><td>64</td></tr></table><p>Which equation describes the relationship shown in the table?</p>", "choices": [{"letter": "E", "html": "<i>y</i> = <i>x</i> + 8"}, {"letter": "F", "html": "<i>y</i> = 5<i>x</i> + 4"}, {"letter": "G", "html": "<i>y</i> = 4<i>x</i> + 5"}, {"letter": "H", "html": "<i>y</i> = 8<i>x</i> + 1"}], "answer": "F", "n": 10}, {"type": "mc", "stem": "<p>Rectangle <i>JKLM</i> is similar to rectangle <i>PQRS</i>.</p><div class=\"fig\"><svg viewBox=\"0 0 460 176\" width=\"460\" height=\"176\" xmlns=\"http://www.w3.org/2000/svg\" font-family=\"Georgia,serif\" font-size=\"15\" fill=\"#1a2433\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"30\" y=\"34\" width=\"180\" height=\"108\" fill=\"#eef2f7\" stroke=\"#1a2433\" stroke-width=\"1.8\"/><text x=\"120\" y=\"26\" text-anchor=\"middle\" font-size=\"15\" >15</text><text x=\"20\" y=\"94\" text-anchor=\"end\" font-size=\"15\" >9</text><text x=\"24\" y=\"30\" text-anchor=\"end\" font-size=\"15\" font-style=\"italic\">J</text><text x=\"216\" y=\"30\" text-anchor=\"start\" font-size=\"15\" font-style=\"italic\">K</text><text x=\"216\" y=\"158\" text-anchor=\"start\" font-size=\"15\" font-style=\"italic\">L</text><text x=\"24\" y=\"158\" text-anchor=\"end\" font-size=\"15\" font-style=\"italic\">M</text><rect x=\"300\" y=\"60\" width=\"120\" height=\"72\" fill=\"#eef2f7\" stroke=\"#1a2433\" stroke-width=\"1.8\"/><text x=\"360\" y=\"52\" text-anchor=\"middle\" font-size=\"15\" >10</text><text x=\"294\" y=\"56\" text-anchor=\"end\" font-size=\"15\" font-style=\"italic\">P</text><text x=\"426\" y=\"56\" text-anchor=\"start\" font-size=\"15\" font-style=\"italic\">Q</text><text x=\"426\" y=\"148\" text-anchor=\"start\" font-size=\"15\" font-style=\"italic\">R</text><text x=\"294\" y=\"148\" text-anchor=\"end\" font-size=\"15\" font-style=\"italic\">S</text></svg></div><p>What is the length of side <i>QR</i>?</p>", "choices": [{"letter": "A", "html": "4"}, {"letter": "B", "html": "5"}, {"letter": "C", "html": "6"}, {"letter": "D", "html": "7.5"}], "answer": "C", "n": 11}, {"type": "mc", "stem": "<p>If <i>w</i> = <i>b</i>(<i>b</i> + 7), then <i>w</i> + 2 =</p>", "choices": [{"letter": "E", "html": "<i>b</i><sup>2</sup> + 7<i>b</i> + 2"}, {"letter": "F", "html": "<i>b</i><sup>2</sup> + 9<i>b</i>"}, {"letter": "G", "html": "<i>b</i><sup>2</sup> + 7<i>b</i> &minus; 2"}, {"letter": "H", "html": "<i>b</i><sup>2</sup> + 9"}], "answer": "E", "n": 12}, {"type": "mc", "stem": "<p>A 12-ounce jar of almonds sells for $5.40. At this rate, what would be the price of a 2-pound jar of almonds? <i>(Note: 1 pound = 16 ounces.)</i></p>", "choices": [{"letter": "A", "html": "$10.80"}, {"letter": "B", "html": "$12.60"}, {"letter": "C", "html": "$14.40"}, {"letter": "D", "html": "$17.28"}], "answer": "C", "n": 13}, {"type": "grid", "stem": "<p>A jar contains only green marbles and yellow marbles. The probability of randomly drawing a green marble from the jar is 4 times the probability of randomly drawing a yellow marble. If there are 35 marbles in the jar, how many of them are yellow?</p>", "choices": [], "answer": "7", "n": 14}, {"type": "mc", "stem": "<p>A regular hexagon and a square have equal perimeters. One side of the hexagon has length 6. What is the combined length of two sides of the square?</p>", "choices": [{"letter": "A", "html": "9"}, {"letter": "B", "html": "13.5"}, {"letter": "C", "html": "18"}, {"letter": "D", "html": "27"}], "answer": "C", "n": 15}, {"type": "mc", "stem": "<div class='disp'>1 dollar = 0.8 pound<br>1 dollar = 120 rupees</div><p>Using the conversions above, how many rupees are equivalent to 1 pound?</p>", "choices": [{"letter": "E", "html": "96 rupees"}, {"letter": "F", "html": "100 rupees"}, {"letter": "G", "html": "150 rupees"}, {"letter": "H", "html": "200 rupees"}], "answer": "G", "n": 16}, {"type": "mc", "stem": "<p>If the mean of 4, 7, 11, 14, and <i>n</i> is equal to <i>n</i>, what is the value of <i>n</i>?</p>", "choices": [{"letter": "A", "html": "8"}, {"letter": "B", "html": "9"}, {"letter": "C", "html": "10"}, {"letter": "D", "html": "12"}], "answer": "B", "n": 17}, {"type": "mc", "stem": "<p>What is the greatest common factor of 462 and 1,155?</p>", "choices": [{"letter": "E", "html": "21"}, {"letter": "F", "html": "33"}, {"letter": "G", "html": "77"}, {"letter": "H", "html": "231"}], "answer": "H", "n": 18}, {"type": "mc", "stem": "<p>If 9<i>k</i> + 21 = 12, then 3<i>k</i> + 7 =</p>", "choices": [{"letter": "A", "html": "4"}, {"letter": "B", "html": "6"}, {"letter": "C", "html": "12"}, {"letter": "D", "html": "36"}], "answer": "A", "n": 19}, {"type": "mc", "stem": "<p>How many integers between 40 and 120 are evenly divisible by 7?</p>", "choices": [{"letter": "E", "html": "10"}, {"letter": "F", "html": "11"}, {"letter": "G", "html": "12"}, {"letter": "H", "html": "13"}], "answer": "G", "n": 20}, {"type": "mc", "stem": "<div class='disp'><span class=\"frac\"><span class=\"num\">(&minus;3)<sup>3</sup> + (4)<sup>2</sup></span><span class=\"den\">(2)<sup>3</sup> &minus; (1)<sup>5</sup></span></span> =</div>", "choices": [{"letter": "A", "html": "<span class=\"frac\"><span class=\"num\">&minus;11</span><span class=\"den\">7</span></span>"}, {"letter": "B", "html": "<span class=\"frac\"><span class=\"num\">&minus;43</span><span class=\"den\">7</span></span>"}, {"letter": "C", "html": "<span class=\"frac\"><span class=\"num\">11</span><span class=\"den\">7</span></span>"}, {"letter": "D", "html": "<span class=\"frac\"><span class=\"num\">&minus;11</span><span class=\"den\">9</span></span>"}], "answer": "A", "n": 21}, {"type": "mc", "stem": "<p>One face of a cube is painted blue and the other five faces are painted white. The total area of the white faces is 80 square centimeters. What is the volume of the cube, in cubic centimeters?</p>", "choices": [{"letter": "E", "html": "48"}, {"letter": "F", "html": "64"}, {"letter": "G", "html": "96"}, {"letter": "H", "html": "512"}], "answer": "F", "n": 22}, {"type": "mc", "stem": "<p>In how many different orders can the five letters of the word PRIME be arranged?</p>", "choices": [{"letter": "A", "html": "25"}, {"letter": "B", "html": "60"}, {"letter": "C", "html": "120"}, {"letter": "D", "html": "3,125"}], "answer": "C", "n": 23}, {"type": "mc", "stem": "<div class=\"fig\"><svg viewBox=\"0 0 300 280\" width=\"300\" height=\"280\" xmlns=\"http://www.w3.org/2000/svg\" font-family=\"Georgia,serif\" font-size=\"15\" fill=\"#1a2433\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"150\" cy=\"140\" r=\"104\" fill=\"none\" stroke=\"#1a2433\" stroke-width=\"1.8\"/><polygon points=\"76.4609,66.4609 223.539,66.4609 223.539,213.539 76.4609,213.539\" fill=\"#eef2f7\" stroke=\"#1a2433\" stroke-width=\"1.8\"/><text x=\"60.4609\" y=\"56.4609\" text-anchor=\"middle\" font-size=\"15\" font-style=\"italic\">P</text><text x=\"239.539\" y=\"56.4609\" text-anchor=\"middle\" font-size=\"15\" font-style=\"italic\">Q</text><text x=\"239.539\" y=\"233.539\" text-anchor=\"middle\" font-size=\"15\" font-style=\"italic\">R</text><text x=\"60.4609\" y=\"233.539\" text-anchor=\"middle\" font-size=\"15\" font-style=\"italic\">S</text><line x1=\"76.4609\" y1=\"66.4609\" x2=\"223.539\" y2=\"213.539\" stroke=\"#1a2433\" stroke-width=\"1.2\" stroke-dasharray=\"5 4\"/></svg></div><p><i>PQRS</i> is a square that touches the circle at points <i>P</i>, <i>Q</i>, <i>R</i>, and <i>S</i>. Diagonal <i>PR</i>, shown dashed, has a length of 20 cm. What is the area of the circle?</p>", "choices": [{"letter": "E", "html": "25&pi; sq. cm"}, {"letter": "F", "html": "100&pi; sq. cm"}, {"letter": "G", "html": "200&pi; sq. cm"}, {"letter": "H", "html": "400&pi; sq. cm"}], "answer": "F", "n": 24}, {"type": "mc", "stem": "<p>The box plot below summarizes the number of trips taken from a bike-share station on each of 40 days.</p><div class=\"fig\"><svg viewBox=\"0 0 520 238\" width=\"520\" height=\"238\" xmlns=\"http://www.w3.org/2000/svg\" font-family=\"Georgia,serif\" font-size=\"15\" fill=\"#1a2433\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"204\" y=\"78\" width=\"126\" height=\"60\" fill=\"#eef2f7\" stroke=\"#1a2433\" stroke-width=\"1.8\"/><line x1=\"246\" y1=\"78\" x2=\"246\" y2=\"138\" stroke=\"#1a2433\" stroke-width=\"2.4\"/><line x1=\"132\" y1=\"108\" x2=\"204\" y2=\"108\" stroke=\"#1a2433\" stroke-width=\"1.6\"/><line x1=\"330\" y1=\"108\" x2=\"408\" y2=\"108\" stroke=\"#1a2433\" stroke-width=\"1.6\"/><line x1=\"132\" y1=\"87\" x2=\"132\" y2=\"129\" stroke=\"#1a2433\" stroke-width=\"2\"/><line x1=\"408\" y1=\"87\" x2=\"408\" y2=\"129\" stroke=\"#1a2433\" stroke-width=\"2\"/><line x1=\"46\" y1=\"172\" x2=\"494\" y2=\"172\" stroke=\"#1a2433\" stroke-width=\"1.6\"/><line x1=\"60\" y1=\"172\" x2=\"60\" y2=\"179\" stroke=\"#1a2433\" stroke-width=\"1.4\"/><text x=\"60\" y=\"198\" text-anchor=\"middle\" font-size=\"15\" >0</text><line x1=\"120\" y1=\"172\" x2=\"120\" y2=\"179\" stroke=\"#1a2433\" stroke-width=\"1.4\"/><text x=\"120\" y=\"198\" text-anchor=\"middle\" font-size=\"15\" >10</text><line x1=\"180\" y1=\"172\" x2=\"180\" y2=\"179\" stroke=\"#1a2433\" stroke-width=\"1.4\"/><text x=\"180\" y=\"198\" text-anchor=\"middle\" font-size=\"15\" >20</text><line x1=\"240\" y1=\"172\" x2=\"240\" y2=\"179\" stroke=\"#1a2433\" stroke-width=\"1.4\"/><text x=\"240\" y=\"198\" text-anchor=\"middle\" font-size=\"15\" >30</text><line x1=\"300\" y1=\"172\" x2=\"300\" y2=\"179\" stroke=\"#1a2433\" stroke-width=\"1.4\"/><text x=\"300\" y=\"198\" text-anchor=\"middle\" font-size=\"15\" >40</text><line x1=\"360\" y1=\"172\" x2=\"360\" y2=\"179\" stroke=\"#1a2433\" stroke-width=\"1.4\"/><text x=\"360\" y=\"198\" text-anchor=\"middle\" font-size=\"15\" >50</text><line x1=\"420\" y1=\"172\" x2=\"420\" y2=\"179\" stroke=\"#1a2433\" stroke-width=\"1.4\"/><text x=\"420\" y=\"198\" text-anchor=\"middle\" font-size=\"15\" >60</text><line x1=\"480\" y1=\"172\" x2=\"480\" y2=\"179\" stroke=\"#1a2433\" stroke-width=\"1.4\"/><text x=\"480\" y=\"198\" text-anchor=\"middle\" font-size=\"15\" >70</text><text x=\"270\" y=\"224\" text-anchor=\"middle\" font-size=\"15\" >Number of trips</text></svg></div><p>What is the interquartile range of the data?</p>", "choices": [{"letter": "A", "html": "7"}, {"letter": "B", "html": "21"}, {"letter": "C", "html": "31"}, {"letter": "D", "html": "46"}], "answer": "B", "n": 25}, {"type": "grid", "stem": "<div class='disp'>&minus;7<i>x</i> + 5 &gt; 54</div><p>Solve the inequality above. The solution can be written in the form <b><i>x</i> &lt; ______</b>. Enter the missing number in the box below.</p><p class='paper-note'><b>On your paper:</b> also graph the solution set on a number line. Draw a number line labeled from &minus;10 to 10, place an open circle or a closed circle at the boundary &mdash; whichever is correct &mdash; and shade the part of the line that is in the solution set. Write the question number next to it. This graph is graded separately from the answer you type here.</p>", "choices": [], "answer": "-7", "paper": true, "n": 26}, {"type": "mc", "stem": "<p>The name of every student in a club is written on a separate slip of paper and placed in a bowl. The probability of randomly drawing the name of a seventh-grader is <span class=\"frac\"><span class=\"num\">3</span><span class=\"den\">8</span></span>. If there are 20 eighth-graders in the club and the club contains only seventh-graders and eighth-graders, how many more eighth-graders than seventh-graders are in the club?</p>", "choices": [{"letter": "A", "html": "4"}, {"letter": "B", "html": "8"}, {"letter": "C", "html": "12"}, {"letter": "D", "html": "20"}], "answer": "B", "n": 27}, {"type": "mc", "stem": "<p>A rectangular patio measures 15 feet by 8 feet. How many square tiles that are 6 inches on each side are needed to cover the patio completely?</p>", "choices": [{"letter": "E", "html": "240"}, {"letter": "F", "html": "320"}, {"letter": "G", "html": "480"}, {"letter": "H", "html": "720"}], "answer": "G", "n": 28}, {"type": "mc", "stem": "<p>A price is increased by 20%, and then the new price is decreased by 25%. What is the net change from the original price?</p>", "choices": [{"letter": "A", "html": "a 5% increase"}, {"letter": "B", "html": "a 5% decrease"}, {"letter": "C", "html": "a 10% decrease"}, {"letter": "D", "html": "a 10% increase"}], "answer": "C", "n": 29}, {"type": "mc", "stem": "<p>Simplify the expression below.</p><div class='disp'><span class=\"frac\"><span class=\"num\"><i>m</i><sup>4</sup> &middot; <i>m</i><sup>3</sup></span><span class=\"den\"><i>m</i><sup>9</sup></span></span></div>", "choices": [{"letter": "E", "html": "<span class=\"frac\"><span class=\"num\">1</span><span class=\"den\"><i>m</i><sup>2</sup></span></span>"}, {"letter": "F", "html": "<i>m</i><sup>2</sup>"}, {"letter": "G", "html": "<i>m</i><sup>3</sup>"}, {"letter": "H", "html": "<span class=\"frac\"><span class=\"num\">1</span><span class=\"den\"><i>m</i><sup>5</sup></span></span>"}], "answer": "E", "n": 30}, {"type": "mc", "stem": "<p>If (9<sup>2</sup>)(27<sup>3</sup>) = 3<sup><i>x</i></sup>, what is the value of <i>x</i>?</p>", "choices": [{"letter": "A", "html": "5"}, {"letter": "B", "html": "11"}, {"letter": "C", "html": "13"}, {"letter": "D", "html": "18"}], "answer": "C", "n": 31}, {"type": "mc", "stem": "<p>The figure below shows a regular pentagon with an exterior angle marked at each vertex.</p><div class=\"fig\"><svg viewBox=\"-5 -12 360 330\" width=\"360\" height=\"330\" xmlns=\"http://www.w3.org/2000/svg\" font-family=\"Georgia,serif\" font-size=\"15\" fill=\"#1a2433\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polygon points=\"175,70 97.0134,126.661 126.802,218.339 223.198,218.339 252.987,126.661\" fill=\"#eef2f7\" stroke=\"#1a2433\" stroke-width=\"1.8\"/><line x1=\"175\" y1=\"70\" x2=\"132.931\" y2=\"39.4352\" stroke=\"#1a2433\" stroke-width=\"1.3\" stroke-dasharray=\"5 4\"/><path d=\"M 159.629 58.8321 A 19 19 0 0 0 159.629 81.1679\" fill=\"none\" stroke=\"#1a2433\" stroke-width=\"1.4\"/><text x=\"139\" y=\"75\" text-anchor=\"middle\" font-size=\"16\" font-style=\"italic\">a</text><line x1=\"97.0134\" y1=\"126.661\" x2=\"54.9445\" y2=\"157.225\" stroke=\"#1a2433\" stroke-width=\"1.3\" stroke-dasharray=\"5 4\"/><path d=\"M 81.642 137.829 A 19 19 0 0 0 102.885 144.731\" fill=\"none\" stroke=\"#1a2433\" stroke-width=\"1.4\"/><text x=\"85.8888\" y=\"165.899\" text-anchor=\"middle\" font-size=\"16\" font-style=\"italic\">b</text><line x1=\"126.802\" y1=\"218.339\" x2=\"142.87\" y2=\"267.794\" stroke=\"#1a2433\" stroke-width=\"1.3\" stroke-dasharray=\"5 4\"/><path d=\"M 132.673 236.409 A 19 19 0 0 0 145.802 218.339\" fill=\"none\" stroke=\"#1a2433\" stroke-width=\"1.4\"/><text x=\"155.926\" y=\"244.5\" text-anchor=\"middle\" font-size=\"16\" font-style=\"italic\">c</text><line x1=\"223.198\" y1=\"218.339\" x2=\"275.198\" y2=\"218.339\" stroke=\"#1a2433\" stroke-width=\"1.3\" stroke-dasharray=\"5 4\"/><path d=\"M 242.198 218.339 A 19 19 0 0 0 229.07 200.269\" fill=\"none\" stroke=\"#1a2433\" stroke-width=\"1.4\"/><text x=\"252.323\" y=\"202.179\" text-anchor=\"middle\" font-size=\"16\" font-style=\"italic\">d</text><line x1=\"252.987\" y1=\"126.661\" x2=\"269.056\" y2=\"77.2057\" stroke=\"#1a2433\" stroke-width=\"1.3\" stroke-dasharray=\"5 4\"/><path d=\"M 258.858 108.591 A 19 19 0 0 0 237.615 115.493\" fill=\"none\" stroke=\"#1a2433\" stroke-width=\"1.4\"/><text x=\"241.862\" y=\"97.4226\" text-anchor=\"middle\" font-size=\"16\" font-style=\"italic\">e</text></svg></div><p>What is the measure of angle <i>a</i>?</p>", "choices": [{"letter": "E", "html": "60&deg;"}, {"letter": "F", "html": "72&deg;"}, {"letter": "G", "html": "108&deg;"}, {"letter": "H", "html": "540&deg;"}], "answer": "F", "n": 32}, {"type": "mc", "stem": "<div class=\"fig\"><svg viewBox=\"0 0 350 210\" width=\"350\" height=\"210\" xmlns=\"http://www.w3.org/2000/svg\" font-family=\"Georgia,serif\" font-size=\"15\" fill=\"#1a2433\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polygon points=\"140,34 58,168 222,168\" fill=\"#eef2f7\" stroke=\"#1a2433\" stroke-width=\"1.8\"/><line x1=\"222\" y1=\"168\" x2=\"318\" y2=\"168\" stroke=\"#1a2433\" stroke-width=\"1.8\"/><text x=\"140\" y=\"22\" text-anchor=\"middle\" font-size=\"15\" font-style=\"italic\">A</text><text x=\"44\" y=\"174\" text-anchor=\"middle\" font-size=\"15\" font-style=\"italic\">B</text><text x=\"218\" y=\"192\" text-anchor=\"middle\" font-size=\"15\" font-style=\"italic\">C</text><text x=\"330\" y=\"174\" text-anchor=\"middle\" font-size=\"15\" font-style=\"italic\">D</text><path d=\"M 252 168 A 30 30 0 0 0 206.341 142.411\" fill=\"none\" stroke=\"#1a2433\" stroke-width=\"1.4\"/><text x=\"249.467\" y=\"130.128\" text-anchor=\"middle\" font-size=\"16\" >?</text><line x1=\"106.206\" y1=\"100.72\" x2=\"95.9701\" y2=\"94.4563\" stroke=\"#1a2433\" stroke-width=\"1.6\"/><line x1=\"136\" y1=\"162\" x2=\"136\" y2=\"174\" stroke=\"#1a2433\" stroke-width=\"1.6\"/><line x1=\"184.03\" y1=\"94.4563\" x2=\"173.794\" y2=\"100.72\" stroke=\"#1a2433\" stroke-width=\"1.6\"/></svg></div><p>In the figure above, triangle <i>ABC</i> is equilateral and <i>BCD</i> is a straight line segment. What is the measure of &ang;<i>ACD</i>?</p>", "choices": [{"letter": "A", "html": "60&deg;"}, {"letter": "B", "html": "90&deg;"}, {"letter": "C", "html": "120&deg;"}, {"letter": "D", "html": "150&deg;"}], "answer": "C", "n": 33}, {"type": "mc", "stem": "<p>In 1995, a town recycled 24,000 tons of material. In 2020, the town recycled 42,000 tons. By what percentage did the amount recycled increase?</p>", "choices": [{"letter": "E", "html": "43%"}, {"letter": "F", "html": "57%"}, {"letter": "G", "html": "75%"}, {"letter": "H", "html": "175%"}], "answer": "G", "n": 34}, {"type": "grid", "stem": "<p>The volume of a cube is 3,375 cubic inches. What is the length, in <b>feet</b>, of one edge of this cube? <i>(Note: 1 foot = 12 inches.)</i></p>", "choices": [], "answer": "1.25", "n": 35}, {"type": "mc", "stem": "<p>Let <i>N</i> = 0.<span class='ovl'>72</span>, where the digits 72 repeat without end. What is the value of <i>N</i> written as a fraction in lowest terms?</p>", "choices": [{"letter": "E", "html": "<span class=\"frac\"><span class=\"num\">8</span><span class=\"den\">11</span></span>"}, {"letter": "F", "html": "<span class=\"frac\"><span class=\"num\">72</span><span class=\"den\">100</span></span>"}, {"letter": "G", "html": "<span class=\"frac\"><span class=\"num\">18</span><span class=\"den\">25</span></span>"}, {"letter": "H", "html": "<span class=\"frac\"><span class=\"num\">4</span><span class=\"den\">5</span></span>"}], "answer": "E", "n": 36}, {"type": "mc", "stem": "<div class=\"fig\"><svg viewBox=\"0 0 400 250\" width=\"400\" height=\"250\" xmlns=\"http://www.w3.org/2000/svg\" font-family=\"Georgia,serif\" font-size=\"15\" fill=\"#1a2433\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><polygon points=\"196,26 40,212 356,212\" fill=\"#eef2f7\" stroke=\"#1a2433\" stroke-width=\"1.8\"/><line x1=\"102.4\" y1=\"137.6\" x2=\"292\" y2=\"137.6\" stroke=\"#1a2433\" stroke-width=\"1.8\"/><text x=\"196\" y=\"14\" text-anchor=\"middle\" font-size=\"15\" font-style=\"italic\">P</text><text x=\"26\" y=\"220\" text-anchor=\"middle\" font-size=\"15\" font-style=\"italic\">Q</text><text x=\"370\" y=\"220\" text-anchor=\"middle\" font-size=\"15\" font-style=\"italic\">R</text><text x=\"86.4\" y=\"142.6\" text-anchor=\"middle\" font-size=\"15\" font-style=\"italic\">S</text><text x=\"308\" y=\"142.6\" text-anchor=\"middle\" font-size=\"15\" font-style=\"italic\">T</text><text x=\"133.2\" y=\"86.8\" text-anchor=\"middle\" font-size=\"15\" >6</text><text x=\"55.2\" y=\"179.8\" text-anchor=\"middle\" font-size=\"15\" >4</text><text x=\"198\" y=\"236\" text-anchor=\"middle\" font-size=\"15\" >15</text><text x=\"197.2\" y=\"127.6\" text-anchor=\"middle\" font-size=\"15\" >?</text></svg></div><p>In the figure above, <i>ST</i> is parallel to <i>QR</i>. What is the length of <i>ST</i>?</p>", "choices": [{"letter": "A", "html": "6"}, {"letter": "B", "html": "9"}, {"letter": "C", "html": "10"}, {"letter": "D", "html": "12.5"}], "answer": "B", "n": 37}, {"type": "mc", "stem": "<p>In the figure below, <i>AB</i> and <i>CD</i> are straight line segments that intersect at point <i>E</i>.</p><div class=\"fig\"><svg viewBox=\"0 0 400 250\" width=\"400\" height=\"250\" xmlns=\"http://www.w3.org/2000/svg\" font-family=\"Georgia,serif\" font-size=\"15\" fill=\"#1a2433\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"85.6846\" y1=\"54\" x2=\"314.315\" y2=\"186\" stroke=\"#1a2433\" stroke-width=\"1.8\"/><line x1=\"314.315\" y1=\"54\" x2=\"85.6846\" y2=\"186\" stroke=\"#1a2433\" stroke-width=\"1.8\"/><circle cx=\"200\" cy=\"120\" r=\"3.6\" fill=\"#1a2433\"/><text x=\"71.6846\" y=\"52\" text-anchor=\"middle\" font-size=\"15\" font-style=\"italic\">A</text><text x=\"328.315\" y=\"194\" text-anchor=\"middle\" font-size=\"15\" font-style=\"italic\">B</text><text x=\"328.315\" y=\"52\" text-anchor=\"middle\" font-size=\"15\" font-style=\"italic\">C</text><text x=\"71.6846\" y=\"194\" text-anchor=\"middle\" font-size=\"15\" font-style=\"italic\">D</text><text x=\"206\" y=\"140\" text-anchor=\"middle\" font-size=\"15\" font-style=\"italic\">E</text><path d=\"M 229.445 103 A 34 34 0 0 0 170.555 103\" fill=\"none\" stroke=\"#1a2433\" stroke-width=\"1.4\"/><text x=\"200\" y=\"67\" text-anchor=\"middle\" font-size=\"14\" >(3x + 10)&deg;</text><path d=\"M 170.555 137 A 34 34 0 0 0 229.445 137\" fill=\"none\" stroke=\"#1a2433\" stroke-width=\"1.4\"/><text x=\"200\" y=\"185\" text-anchor=\"middle\" font-size=\"14\" >(5x &minus; 30)&deg;</text></svg></div><p>What is the value of <i>x</i>?</p>", "choices": [{"letter": "E", "html": "10"}, {"letter": "F", "html": "20"}, {"letter": "G", "html": "25"}, {"letter": "H", "html": "40"}], "answer": "F", "n": 38}, {"type": "mc", "stem": "<p>Straight line <i>j</i> passes through the point (&minus;2, 12) and has an <i>x</i>-intercept of 4. What is the equation of line <i>j</i>?</p>", "choices": [{"letter": "A", "html": "<i>y</i> = &minus;2<i>x</i> + 8"}, {"letter": "B", "html": "<i>y</i> = 2<i>x</i> + 16"}, {"letter": "C", "html": "<i>y</i> = &minus;2<i>x</i> + 4"}, {"letter": "D", "html": "<i>y</i> = &minus;3<i>x</i> + 6"}], "answer": "A", "n": 39}, {"type": "mc", "stem": "<p>If <i>n</i> = &minus;4, which of the expressions below has the greatest value?</p>", "choices": [{"letter": "E", "html": "<i>n</i><sup>2</sup>"}, {"letter": "F", "html": "<i>n</i><sup>3</sup>"}, {"letter": "G", "html": "<i>n</i><sup>2</sup> + <i>n</i>"}, {"letter": "H", "html": "<i>n</i><sup>2</sup> &minus; <i>n</i>"}], "answer": "H", "n": 40}, {"type": "mc", "stem": "<p>In the figure below, <i>AB</i> and <i>CD</i> are straight line segments intersecting at point <i>E</i>, and <i>AC</i> is parallel to <i>DB</i>.</p><div class=\"fig\"><svg viewBox=\"0 0 400 280\" width=\"400\" height=\"280\" xmlns=\"http://www.w3.org/2000/svg\" font-family=\"Georgia,serif\" font-size=\"15\" fill=\"#1a2433\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"80\" y1=\"50\" x2=\"350\" y2=\"245\" stroke=\"#1a2433\" stroke-width=\"1.8\"/><line x1=\"80\" y1=\"200\" x2=\"350\" y2=\"20\" stroke=\"#1a2433\" stroke-width=\"1.8\"/><line x1=\"80\" y1=\"50\" x2=\"80\" y2=\"200\" stroke=\"#1a2433\" stroke-width=\"1.8\"/><line x1=\"350\" y1=\"20\" x2=\"350\" y2=\"245\" stroke=\"#1a2433\" stroke-width=\"1.8\"/><circle cx=\"188\" cy=\"128\" r=\"3.6\" fill=\"#1a2433\"/><text x=\"68\" y=\"44\" text-anchor=\"end\" font-size=\"15\" font-style=\"italic\">A</text><text x=\"68\" y=\"214\" text-anchor=\"end\" font-size=\"15\" font-style=\"italic\">C</text><text x=\"362\" y=\"18\" text-anchor=\"start\" font-size=\"15\" font-style=\"italic\">D</text><text x=\"362\" y=\"259\" text-anchor=\"start\" font-size=\"15\" font-style=\"italic\">B</text><text x=\"186\" y=\"150\" text-anchor=\"middle\" font-size=\"15\" font-style=\"italic\">E</text><text x=\"136\" y=\"80\" text-anchor=\"middle\" font-size=\"15\" >8</text><text x=\"275\" y=\"177.5\" text-anchor=\"middle\" font-size=\"15\" >12</text><text x=\"58\" y=\"130\" text-anchor=\"end\" font-size=\"15\" >10</text><text x=\"372\" y=\"137.5\" text-anchor=\"start\" font-size=\"15\" >?</text><line x1=\"74\" y1=\"120\" x2=\"80\" y2=\"127\" stroke=\"#1a2433\" stroke-width=\"1.6\"/><line x1=\"80\" y1=\"127\" x2=\"86\" y2=\"120\" stroke=\"#1a2433\" stroke-width=\"1.6\"/><line x1=\"344\" y1=\"127.5\" x2=\"350\" y2=\"134.5\" stroke=\"#1a2433\" stroke-width=\"1.6\"/><line x1=\"350\" y1=\"134.5\" x2=\"356\" y2=\"127.5\" stroke=\"#1a2433\" stroke-width=\"1.6\"/></svg></div><p>What is the length of <i>DB</i>?</p>", "choices": [{"letter": "A", "html": "<span class=\"frac\"><span class=\"num\">20</span><span class=\"den\">3</span></span>"}, {"letter": "B", "html": "13"}, {"letter": "C", "html": "15"}, {"letter": "D", "html": "18"}], "answer": "C", "n": 41}, {"type": "mc", "stem": "<p>Nine consecutive integers are arranged in increasing order. Their sum is 9<i>k</i>. What is the largest of the nine integers, in terms of <i>k</i>?</p>", "choices": [{"letter": "E", "html": "<i>k</i> + 4"}, {"letter": "F", "html": "<i>k</i> + 5"}, {"letter": "G", "html": "<i>k</i> + 8"}, {"letter": "H", "html": "9<i>k</i> &minus; 4"}], "answer": "E", "n": 42}, {"type": "mc", "stem": "<div class='disp'>5<sup>&minus;2</sup> + 5<sup>&minus;1</sup> + 5<sup>0</sup> = <span class=\"frac\"><span class=\"num\"><i>x</i></span><span class=\"den\">25</span></span></div><p>What is the value of <i>x</i> in the equation above?</p>", "choices": [{"letter": "A", "html": "3"}, {"letter": "B", "html": "11"}, {"letter": "C", "html": "31"}, {"letter": "D", "html": "155"}], "answer": "C", "n": 43}, {"type": "grid", "stem": "<div class='disp'>(8.4 &times; 10<sup>15</sup>) &minus; (4.0 &times; 10<sup>14</sup>) = <i>k</i> &times; 10<sup>15</sup></div><p>What is the value of <i>k</i> in the equation above?</p>", "choices": [], "answer": "8", "n": 44}, {"type": "mc", "stem": "<p>A debate club must send a team of 3 juniors and 1 senior to a tournament. The club has 6 juniors and 4 seniors to choose from. How many different teams are possible?</p>", "choices": [{"letter": "A", "html": "24"}, {"letter": "B", "html": "40"}, {"letter": "C", "html": "80"}, {"letter": "D", "html": "480"}], "answer": "C", "n": 45}, {"type": "mc", "stem": "<p>In the figure below, <i>ABCD</i> is a square with sides of length 20. Four quarter circles, each with a radius of 10, are drawn inside the square with their centers at the four vertices.</p><div class=\"fig\"><svg viewBox=\"0 0 340 320\" width=\"340\" height=\"320\" xmlns=\"http://www.w3.org/2000/svg\" font-family=\"Georgia,serif\" font-size=\"15\" fill=\"#1a2433\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><defs><clipPath id=\"sqk\"><rect x=\"60\" y=\"30\" width=\"220\" height=\"220\"/></clipPath></defs><rect x=\"60\" y=\"30\" width=\"220\" height=\"220\" fill=\"#eef2f7\"/><circle cx=\"60\" cy=\"30\" r=\"110\" fill=\"#fff\" stroke=\"#1a2433\" stroke-width=\"1.8\" clip-path=\"url(#sqk)\"/><circle cx=\"280\" cy=\"30\" r=\"110\" fill=\"#fff\" stroke=\"#1a2433\" stroke-width=\"1.8\" clip-path=\"url(#sqk)\"/><circle cx=\"280\" cy=\"250\" r=\"110\" fill=\"#fff\" stroke=\"#1a2433\" stroke-width=\"1.8\" clip-path=\"url(#sqk)\"/><circle cx=\"60\" cy=\"250\" r=\"110\" fill=\"#fff\" stroke=\"#1a2433\" stroke-width=\"1.8\" clip-path=\"url(#sqk)\"/><rect x=\"60\" y=\"30\" width=\"220\" height=\"220\" fill=\"none\" stroke=\"#1a2433\" stroke-width=\"1.8\"/><text x=\"170\" y=\"18\" text-anchor=\"middle\" font-size=\"15\" >20</text><text x=\"46\" y=\"145\" text-anchor=\"end\" font-size=\"15\" >20</text><text x=\"170\" y=\"290\" text-anchor=\"middle\" font-size=\"13.5\" >The shaded region is shown in grey.</text></svg></div><p>What is the area of the shaded region inside the square but outside all four quarter circles?</p>", "choices": [{"letter": "E", "html": "400 &minus; 100&pi;"}, {"letter": "F", "html": "400 &minus; 400&pi;"}, {"letter": "G", "html": "400 &minus; 50&pi;"}, {"letter": "H", "html": "100&pi; &minus; 400"}], "answer": "E", "n": 46}, {"type": "mc", "stem": "<p>The box plot below summarizes the number of steps, in thousands, that a person walked on each of 30 days.</p><div class=\"fig\"><svg viewBox=\"0 0 520 238\" width=\"520\" height=\"238\" xmlns=\"http://www.w3.org/2000/svg\" font-family=\"Georgia,serif\" font-size=\"15\" fill=\"#1a2433\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"172\" y=\"78\" width=\"112\" height=\"60\" fill=\"#eef2f7\" stroke=\"#1a2433\" stroke-width=\"1.8\"/><line x1=\"214\" y1=\"78\" x2=\"214\" y2=\"138\" stroke=\"#1a2433\" stroke-width=\"2.4\"/><line x1=\"116\" y1=\"108\" x2=\"172\" y2=\"108\" stroke=\"#1a2433\" stroke-width=\"1.6\"/><line x1=\"284\" y1=\"108\" x2=\"368\" y2=\"108\" stroke=\"#1a2433\" stroke-width=\"1.6\"/><line x1=\"116\" y1=\"87\" x2=\"116\" y2=\"129\" stroke=\"#1a2433\" stroke-width=\"2\"/><line x1=\"368\" y1=\"87\" x2=\"368\" y2=\"129\" stroke=\"#1a2433\" stroke-width=\"2\"/><line x1=\"46\" y1=\"172\" x2=\"494\" y2=\"172\" stroke=\"#1a2433\" stroke-width=\"1.6\"/><line x1=\"60\" y1=\"172\" x2=\"60\" y2=\"179\" stroke=\"#1a2433\" stroke-width=\"1.4\"/><text x=\"60\" y=\"198\" text-anchor=\"middle\" font-size=\"15\" >0</text><line x1=\"130\" y1=\"172\" x2=\"130\" y2=\"179\" stroke=\"#1a2433\" stroke-width=\"1.4\"/><text x=\"130\" y=\"198\" text-anchor=\"middle\" font-size=\"15\" >5</text><line x1=\"200\" y1=\"172\" x2=\"200\" y2=\"179\" stroke=\"#1a2433\" stroke-width=\"1.4\"/><text x=\"200\" y=\"198\" text-anchor=\"middle\" font-size=\"15\" >10</text><line x1=\"270\" y1=\"172\" x2=\"270\" y2=\"179\" stroke=\"#1a2433\" stroke-width=\"1.4\"/><text x=\"270\" y=\"198\" text-anchor=\"middle\" font-size=\"15\" >15</text><line x1=\"340\" y1=\"172\" x2=\"340\" y2=\"179\" stroke=\"#1a2433\" stroke-width=\"1.4\"/><text x=\"340\" y=\"198\" text-anchor=\"middle\" font-size=\"15\" >20</text><line x1=\"410\" y1=\"172\" x2=\"410\" y2=\"179\" stroke=\"#1a2433\" stroke-width=\"1.4\"/><text x=\"410\" y=\"198\" text-anchor=\"middle\" font-size=\"15\" >25</text><line x1=\"480\" y1=\"172\" x2=\"480\" y2=\"179\" stroke=\"#1a2433\" stroke-width=\"1.4\"/><text x=\"480\" y=\"198\" text-anchor=\"middle\" font-size=\"15\" >30</text><text x=\"270\" y=\"224\" text-anchor=\"middle\" font-size=\"15\" >Steps (thousands)</text></svg></div><p>A value is considered an <b>outlier</b> if it is more than 1.5 &times; IQR below the first quartile or more than 1.5 &times; IQR above the third quartile. One more day's value is added to the data. Which of the following values would be an outlier?</p>", "choices": [{"letter": "A", "html": "0"}, {"letter": "B", "html": "26"}, {"letter": "C", "html": "28"}, {"letter": "D", "html": "30"}], "answer": "D", "n": 47}, {"type": "mc", "stem": "<p>The radius of circle <i>A</i> is <i>R</i>, and the radius of circle <i>B</i> is <i>r</i>. The area of circle <i>A</i> is 3 times the area of circle <i>B</i>. What is <i>R</i> in terms of <i>r</i>?</p>", "choices": [{"letter": "E", "html": "<i>r</i>&radic;<span class='ovl'>&nbsp;3&nbsp;</span>"}, {"letter": "F", "html": "3<i>r</i>"}, {"letter": "G", "html": "9<i>r</i>"}, {"letter": "H", "html": "<span class=\"frac\"><span class=\"num\"><i>r</i></span><span class=\"den\">&radic;<span class='ovl'>&nbsp;3&nbsp;</span></span></span>"}], "answer": "E", "n": 48}, {"type": "mc", "stem": "<p>On the number line below, 0 and 1 are marked, and <i>x</i> is a number between them.</p><div class=\"fig\"><svg viewBox=\"0 0 530 146\" width=\"530\" height=\"146\" xmlns=\"http://www.w3.org/2000/svg\" font-family=\"Georgia,serif\" font-size=\"15\" fill=\"#1a2433\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"54\" y1=\"96\" x2=\"486\" y2=\"96\" stroke=\"#1a2433\" stroke-width=\"1.8\"/><path d=\"M 499 96 L 486 90 L 486 102 z\" fill=\"#1a2433\"/><path d=\"M 41 96 L 54 90 L 54 102 z\" fill=\"#1a2433\"/><line x1=\"166.32\" y1=\"87\" x2=\"166.32\" y2=\"105\" stroke=\"#1a2433\" stroke-width=\"1.8\"/><text x=\"166.32\" y=\"128\" text-anchor=\"middle\" font-size=\"15\" >0</text><line x1=\"373.68\" y1=\"87\" x2=\"373.68\" y2=\"105\" stroke=\"#1a2433\" stroke-width=\"1.8\"/><text x=\"373.68\" y=\"128\" text-anchor=\"middle\" font-size=\"15\" >1</text><circle cx=\"108.259\" cy=\"96\" r=\"4.2\" fill=\"#1a2433\"/><text x=\"108.259\" y=\"79\" text-anchor=\"middle\" font-size=\"16\" font-style=\"italic\">W</text><circle cx=\"228.528\" cy=\"96\" r=\"4.2\" fill=\"#1a2433\"/><text x=\"228.528\" y=\"79\" text-anchor=\"middle\" font-size=\"16\" font-style=\"italic\">X</text><circle cx=\"294.883\" cy=\"96\" r=\"4.2\" fill=\"#1a2433\"/><text x=\"294.883\" y=\"79\" text-anchor=\"middle\" font-size=\"16\" font-style=\"italic\">x</text><circle cx=\"342.576\" cy=\"96\" r=\"4.2\" fill=\"#1a2433\"/><text x=\"342.576\" y=\"79\" text-anchor=\"middle\" font-size=\"16\" font-style=\"italic\">Y</text><circle cx=\"431.741\" cy=\"96\" r=\"4.2\" fill=\"#1a2433\"/><text x=\"431.741\" y=\"79\" text-anchor=\"middle\" font-size=\"16\" font-style=\"italic\">Z</text></svg></div><p>Which letter could represent the location of <i>x</i><sup>2</sup>?</p>", "choices": [{"letter": "A", "html": "<i>W</i>"}, {"letter": "B", "html": "<i>X</i>"}, {"letter": "C", "html": "<i>Y</i>"}, {"letter": "D", "html": "<i>Z</i>"}], "answer": "B", "n": 49}, {"type": "mc", "stem": "<p>A bag contains 5 green marbles and 3 white marbles. Three marbles are drawn at random from the bag, one at a time and without replacement. What is the probability that exactly two of the three marbles drawn are green?</p>", "choices": [{"letter": "E", "html": "<span class=\"frac\"><span class=\"num\">15</span><span class=\"den\">28</span></span>"}, {"letter": "F", "html": "<span class=\"frac\"><span class=\"num\">5</span><span class=\"den\">28</span></span>"}, {"letter": "G", "html": "<span class=\"frac\"><span class=\"num\">15</span><span class=\"den\">56</span></span>"}, {"letter": "H", "html": "<span class=\"frac\"><span class=\"num\">45</span><span class=\"den\">512</span></span>"}], "answer": "E", "n": 50}];
+var TOTAL = DATA.length;
+var PAPER_Q = (function(){ for (var i=0;i<DATA.length;i++){ if (DATA[i].paper) return DATA[i].n; } return 0; })();
+var STORE = "shsat_formK_math_v1";
+
+var idx = 0, answers = {}, pending = null, elapsed = 0;
+var mode = "start", reviewIdx = 0, ticker = null;
+
+var app = document.getElementById("app");
+var bar = document.getElementById("bar");
+var track = document.getElementById("track");
+
+function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;"); }
+function fmt(sec){
+  if (sec < 0) sec = 0;
+  var h = Math.floor(sec/3600), m = Math.floor((sec%3600)/60), s = sec%60;
+  return h + ":" + (m<10?"0":"") + m + ":" + (s<10?"0":"") + s;
+}
+function norm(v){
+  return String(v == null ? "" : v).trim()
+    .replace(/&minus;/g,"-").replace(/\u2212/g,"-").replace(/[$,%\s]/g,"");
+}
+function sameAnswer(a, b){
+  var x = norm(a), y = norm(b);
+  if (!x) return false;
+  if (x === y) return true;
+  var fx = parseFloat(x), fy = parseFloat(y);
+  return !isNaN(fx) && !isNaN(fy) && Math.abs(fx - fy) < 1e-9;
+}
+function answeredCount(){
+  var c = 0; for (var k in answers){ if (norm(answers[k])) c++; } return c;
+}
+
+function ask(heading, message, yesLabel, onYes){
+  var m = document.getElementById("modal");
+  document.getElementById("modal-h").textContent = heading;
+  document.getElementById("modal-p").textContent = message;
+  var yes = document.getElementById("modal-yes"), no = document.getElementById("modal-no");
+  yes.textContent = yesLabel; m.hidden = false; yes.focus();
+  function close(){ m.hidden = true; yes.onclick = null; no.onclick = null; }
+  yes.onclick = function(){ close(); onYes(); };
+  no.onclick = close;
+}
+function printSheet(){
+  var name = (document.getElementById("student") || {}).value || "";
+  var slot = document.getElementById("phname");
+  if (slot) slot.textContent = name ? name : "\u2014";
+  try { window.print(); } catch (e) {}
+}
+
+function save(){
+  try{ localStorage.setItem(STORE, JSON.stringify(
+    {idx:idx, answers:answers, elapsed:elapsed, mode:mode})); }catch(e){}
+}
+function load(){
+  try{ var r = localStorage.getItem(STORE); return r ? JSON.parse(r) : null; }catch(e){ return null; }
+}
+function wipe(){ try{ localStorage.removeItem(STORE); }catch(e){} }
+
+function tick(){ elapsed++; if (elapsed % 15 === 0) save(); }
+function startTicker(){ if (ticker) clearInterval(ticker); ticker = setInterval(tick, 1000); }
+function stopTicker(){ if (ticker){ clearInterval(ticker); ticker = null; } }
+
+function paintChrome(){
+  var showing = (mode === "test");
+  bar.hidden = !showing; track.hidden = !showing;
+  if (!showing) return;
+  document.getElementById("count").textContent = answeredCount() + " of " + TOTAL + " answered";
+  document.getElementById("trackbar").style.width = ((idx / TOTAL) * 100) + "%";
+}
+
+function screenStart(){
+  var saved = load();
+  var canResume = saved && saved.mode === "test" && saved.idx > 0 && saved.idx < TOTAL;
+  return '' +
+  '<div class="card">' +
+    '<h1>Mathematics Section &mdash; Form K</h1>' +
+    '<p class="lede">' + TOTAL + ' questions, untimed. Questions appear in a fixed order ' +
+      'and you cannot return to a question once you move past it.</p>' +
+    '<ul class="rules">' +
+      '<li><b>Two formats</b><span>Most questions are multiple choice with four answer ' +
+        'choices. Five are grid-in: type a numerical answer, with no choices given.</span></li>' +
+      '<li><b>One paper answer</b><span>Question ' + PAPER_Q + ' also asks you to draw a ' +
+        'number line graph on your scratch paper. Keep that paper &mdash; it is graded ' +
+        'with the test.</span></li>' +
+      '<li><b>Navigation</b><span>Use the arrow to move to the next question. There is no ' +
+        'back button during the test.</span></li>' +
+      '<li><b>Scoring</b><span>No feedback appears while you test. Your test is scored ' +
+        'automatically as soon as you finish.</span></li>' +
+      '<li><b>Timing</b><span>No time limit. Work at your own pace.</span></li>' +
+    '</ul>' +
+    '<div class="actions">' +
+      '<div class="note">Scratch paper and a pencil are allowed. Calculators are not.</div>' +
+      '<div class="btns">' +
+        (canResume ? '<button class="btn btn-ghost" id="resume">Resume at question ' +
+           DATA[saved.idx].n + '</button>' : '') +
+        '<button class="btn btn-primary" id="begin">Begin test</button>' +
+      '</div>' +
+    '</div>' +
+  '</div>';
+}
+
+function screenQuestion(){
+  var q = DATA[idx], isLast = (idx === TOTAL - 1), body;
+  if (q.type === "grid"){
+    body = '<div class="grid-in">' +
+             '<label for="gridbox">Your answer</label>' +
+             '<input id="gridbox" type="text" inputmode="text" autocomplete="off" ' +
+                'spellcheck="false" value="' + esc(pending == null ? "" : pending) + '">' +
+             '<div class="hint">Numbers only. Use a minus sign for a negative answer and a ' +
+               'decimal point if needed.</div>' +
+           '</div>';
+  } else {
+    var rows = "";
+    for (var i = 0; i < q.choices.length; i++){
+      var c = q.choices[i];
+      rows += '<button class="choice' + (pending === c.letter ? " on" : "") +
+              '" data-letter="' + c.letter + '" type="button">' +
+              '<span class="ltr">' + c.letter + '</span>' +
+              '<span class="ct">' + c.html + '</span></button>';
+    }
+    body = '<div class="choices" role="group" aria-label="Answer choices">' + rows + '</div>';
+  }
+  return '' +
+  '<div class="card">' +
+    '<div class="eyebrow">' +
+      '<span class="qnum">Question ' + q.n + ' of ' + TOTAL + '</span>' +
+      (q.type === "grid" ? '<span class="badge' + (q.paper ? ' paper' : '') + '">' +
+        (q.paper ? "Grid-in + paper" : "Grid-in") + '</span>' : '') +
+    '</div>' +
+    '<div class="stem">' + q.stem + '</div>' + body +
+    '<div class="actions">' +
+      '<div class="note">' + (isLast
+        ? 'Last question. The arrow submits your test.'
+        : 'Once you move on, this question closes.') + '</div>' +
+      '<div class="btns">' +
+        '<button class="arrow' + (isLast ? " finish" : "") + '" id="next" ' +
+          'aria-label="' + (isLast ? "Finish test" : "Next question") + '" ' +
+          'title="' + (isLast ? "Finish test" : "Next question") + '">' +
+          (isLast ? "&#10003;" : "&rarr;") + '</button>' +
+      '</div>' +
+    '</div>' +
+  '</div>';
+}
+
+function printHead(label){
+  var d = new Date();
+  var date = d.toLocaleDateString(undefined, {year:"numeric", month:"long", day:"numeric"});
+  return '<div class="printhead">' +
+    '<div class="ph-title">SHSAT Practice &mdash; Mathematics &middot; Form K</div>' +
+    '<div class="ph-meta">' + label + ' &nbsp;&middot;&nbsp; Name: <span id="phname">' +
+      '&mdash;</span> &nbsp;&middot;&nbsp; ' + date + '</div></div>';
+}
+
+function sheetChunks(){
+  var per = Math.ceil(TOTAL / 3), out = "";
+  for (var c = 0; c < 3; c++){
+    var rows = "";
+    for (var i = c * per; i < Math.min((c + 1) * per, TOTAL); i++){
+      var q = DATA[i], a = answers[q.n], has = !!norm(a);
+      rows += '<tr><td class="q">' + q.n + '</td><td class="you' +
+              (has ? '' : ' blank') + '">' + (has ? esc(a) : "&mdash;") + '</td></tr>';
+    }
+    if (rows) out += '<table class="sheet"><thead><tr><th>Q</th><th>Your answer</th>' +
+                     '</tr></thead><tbody>' + rows + '</tbody></table>';
+  }
+  return '<div class="sheetgrid">' + out + '</div>';
+}
+
+function scored(){
+  var right = 0, missed = [], rows = "";
+  for (var i = 0; i < TOTAL; i++){
+    var q = DATA[i], a = answers[q.n], has = !!norm(a), ok = sameAnswer(a, q.answer);
+    if (ok) right++; else missed.push(q.n);
+    rows += '<tr><td class="q">' + q.n + '</td>' +
+            '<td class="' + (has ? (ok ? "right" : "wrong") : "you blank") + '">' +
+            (has ? esc(a) : "&mdash;") + '</td>' +
+            '<td>' + esc(q.answer) + '</td>' +
+            '<td>' + (ok ? '<span class="right">correct</span>'
+                         : '<span class="wrong">' + (has ? "incorrect" : "blank") + '</span>') +
+            '</td></tr>';
+  }
+  return {right: right, missed: missed, rows: rows,
+          pct: Math.round((right / TOTAL) * 100)};
+}
+
+function resultsText(){
+  var s = scored();
+  var name = (document.getElementById("student") || {}).value || "(no name)";
+  var lines = [];
+  lines.push("SHSAT Practice - Mathematics, Form K");
+  lines.push("Student: " + name);
+  lines.push("Date: " + new Date().toLocaleDateString());
+  lines.push("");
+  lines.push("SCORE: " + s.right + " / " + TOTAL + "  (" + s.pct + "%)");
+  lines.push("Blank: " + (TOTAL - answeredCount()) + "     Time: " + fmt(elapsed));
+  lines.push("");
+  lines.push("Missed: " + (s.missed.length ? s.missed.join(", ") : "none"));
+  if (PAPER_Q) lines.push("To grade on paper: number line graph for question " + PAPER_Q + ".");
+  lines.push("");
+  lines.push("Q    Yours   Key     Result");
+  for (var i = 0; i < TOTAL; i++){
+    var q = DATA[i], a = answers[q.n], has = !!norm(a), ok = sameAnswer(a, q.answer);
+    var pad = function(v, n){ v = String(v); while (v.length < n) v += " "; return v; };
+    lines.push(pad(q.n, 5) + pad(has ? a : "-", 8) + pad(q.answer, 8) +
+               (ok ? "correct" : (has ? "INCORRECT" : "blank")));
+  }
+  return lines.join("\n");
+}
+
+
+function copyResults(){
+  var txt = resultsText();
+  var done = function(){
+    var n = document.getElementById("mailnote");
+    if (n) n.textContent = "Results copied. Paste them into an email or a document.";
+  };
+  try{
+    if (navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(txt).then(done, function(){ fallbackCopy(txt, done); });
+    } else { fallbackCopy(txt, done); }
+  }catch(e){ fallbackCopy(txt, done); }
+}
+
+function fallbackCopy(txt, done){
+  try{
+    var ta = document.createElement("textarea");
+    ta.value = txt;
+    ta.style.position = "fixed"; ta.style.opacity = "0";
+    document.body.appendChild(ta); ta.focus(); ta.select();
+    document.execCommand("copy");
+    document.body.removeChild(ta);
+    done();
+  }catch(e){
+    var n = document.getElementById("mailnote");
+    if (n) n.textContent = "Copying was blocked here. Download this file and open it in your " +
+          "browser, then try again.";
+  }
+}
+
+function screenResults(){
+  var s = scored();
+  return '' +
+  '<div class="card">' +
+    printHead("Score report") +
+    '<h1 class="noprint">Test complete</h1>' +
+    '<p class="lede noprint">Your test has been scored. Add a name below if you want it ' +
+      'on the printed report.</p>' +
+    '<div class="namefield noprint"><label for="student">Student name</label>' +
+      '<input id="student" type="text" autocomplete="off" placeholder="Optional, appears on the report"></div>' +
+    (PAPER_Q ? '<div class="paperflag"><b>Still to be graded on paper:</b> the number line ' +
+      'graph for question ' + PAPER_Q + '. The score below covers the typed answer to that ' +
+      'question only.</div>' : '') +
+    '<div class="stats">' +
+      '<div class="stat"><div class="k">Raw score</div><div class="v">' +
+         s.right + ' / ' + TOTAL + '</div></div>' +
+      '<div class="stat"><div class="k">Percent</div><div class="v">' + s.pct + '%</div></div>' +
+      '<div class="stat"><div class="k">Blank</div><div class="v">' +
+         (TOTAL - answeredCount()) + '</div></div>' +
+      '<div class="stat"><div class="k">Total time</div><div class="v">' + fmt(elapsed) + '</div></div>' +
+    '</div>' +
+    '<h2>Questions missed</h2>' +
+    '<p class="missed">' + (s.missed.length ? s.missed.join(', ') : 'None &mdash; a perfect score.') + '</p>' +
+    '<h2>Question by question</h2>' +
+    '<table class="sheet"><thead><tr><th>Q</th><th>Yours</th><th>Key</th><th>Result</th></tr>' +
+      '</thead><tbody>' + s.rows + '</tbody></table>' +
+    '<div class="actions noprint">' +
+      '<div class="note" id="mailnote">Save as PDF opens your browser print dialog; ' +
+        'choose &ldquo;Save as PDF&rdquo; as the destination.</div>' +
+      '<div class="btns">' +
+        '<button class="btn btn-ghost" id="restart">Start over</button>' +
+        '<button class="btn btn-ghost" id="copy">Copy results</button>' +
+        '<button class="btn btn-ghost" id="walk">Review questions</button>' +
+        '<button class="btn btn-primary" id="print">Save as PDF</button>' +
+      '</div>' +
+    '</div>' +
+  '</div>';
+}
+
+function screenReview(){
+  var q = DATA[reviewIdx], a = answers[q.n], ok = sameAnswer(a, q.answer), body;
+  if (q.type === "grid"){
+    body = '<div class="grid-in"><label>Your answer</label>' +
+           '<div style="font-size:25px;font-weight:600">' +
+             (norm(a) ? esc(a) : '<span class="blank">left blank</span>') + '</div></div>';
+  } else {
+    var rows = "";
+    for (var i = 0; i < q.choices.length; i++){
+      var c = q.choices[i], on = (a === c.letter), key = (q.answer === c.letter);
+      var tag = key ? ' &nbsp;<span class="right">&#10003; correct</span>'
+                    : (on ? ' &nbsp;<span class="wrong">your answer</span>' : '');
+      rows += '<div class="choice' + (key || on ? " on" : "") + '" style="cursor:default;' +
+              (key ? "border-color:#15803d;background:#f2f8f4" :
+                    (on ? "border-color:#b42318;background:#fdf3f2" : "")) + '">' +
+              '<span class="ltr"' + (key ? ' style="background:#15803d;border-color:#15803d;color:#fff"' :
+                                     (on ? ' style="background:#b42318;border-color:#b42318;color:#fff"' : '')) +
+              '>' + c.letter + '</span><span class="ct">' + c.html + tag + '</span></div>';
+    }
+    body = '<div class="choices">' + rows + '</div>';
+  }
+  var note = q.type === "grid"
+    ? '<div class="correct-note">Correct answer: <b>' + esc(q.answer) + '</b></div>' : '';
+  return '' +
+  '<div class="card">' +
+    '<div class="rev-head">' +
+      '<span class="qnum">Question ' + q.n + ' of ' + TOTAL + '</span>' +
+      '<span class="verdict ' + (ok ? "right" : "wrong") + '">' +
+        (ok ? "Correct" : (norm(a) ? "Incorrect" : "Blank")) + '</span>' +
+    '</div>' +
+    '<div class="stem">' + q.stem + '</div>' + body + note +
+    '<div class="actions">' +
+      '<div class="note">Review mode &mdash; you can move in both directions here.</div>' +
+      '<div class="btns">' +
+        '<button class="btn btn-ghost" id="rprev"' + (reviewIdx === 0 ? " disabled" : "") + '>Previous</button>' +
+        '<button class="btn btn-ghost" id="rsheet">Back to report</button>' +
+        '<button class="btn btn-primary" id="rnext"' +
+          (reviewIdx === TOTAL - 1 ? " disabled" : "") + '>Next</button>' +
+      '</div>' +
+    '</div>' +
+  '</div>';
+}
+
+function render(){
+  if (mode === "start")        app.innerHTML = screenStart();
+  else if (mode === "test")    app.innerHTML = screenQuestion();
+  else if (mode === "results") app.innerHTML = screenResults();
+  else                         app.innerHTML = screenReview();
+  paintChrome(); wire(); window.scrollTo(0, 0);
+}
+
+function wire(){
+  var byId = function(id){ return document.getElementById(id); };
+  var begin = byId("begin"), resume = byId("resume");
+  if (begin) begin.onclick = function(){ beginTest(false); };
+  if (resume) resume.onclick = function(){ beginTest(true); };
+
+  var boxes = app.querySelectorAll(".choice[data-letter]");
+  for (var i = 0; i < boxes.length; i++){
+    boxes[i].onclick = function(){ pending = this.getAttribute("data-letter"); render(); };
+  }
+  var box = byId("gridbox");
+  if (box){
+    box.oninput = function(){ pending = this.value; };
+    box.onkeydown = function(e){ if (e.key === "Enter"){ e.preventDefault(); advance(); } };
+    box.focus();
+  }
+  var next = byId("next"); if (next) next.onclick = advance;
+
+  var print = byId("print"); if (print) print.onclick = printSheet;
+  var student = byId("student");
+  if (student) student.oninput = function(){
+    var slot = byId("phname"); if (slot) slot.textContent = this.value ? this.value : "\u2014";
+  };
+  var walk  = byId("walk");  if (walk)  walk.onclick = function(){ reviewIdx = 0; mode = "review"; render(); };
+  var sheet = byId("rsheet");if (sheet) sheet.onclick = function(){ mode = "results"; render(); };
+  var copyB = byId("copy");  if (copyB) copyB.onclick = copyResults;
+  var rprev = byId("rprev"); if (rprev) rprev.onclick = function(){ if (reviewIdx > 0){ reviewIdx--; render(); } };
+  var rnext = byId("rnext"); if (rnext) rnext.onclick = function(){ if (reviewIdx < TOTAL - 1){ reviewIdx++; render(); } };
+  var restart = byId("restart");
+  if (restart) restart.onclick = function(){
+    ask("Start over?", "This clears every answer and returns you to question 1.",
+        "Start over", function(){
+      wipe(); idx = 0; answers = {}; pending = null; elapsed = 0; mode = "start"; render();
+    });
+  };
+}
+
+function beginTest(resume){
+  var saved = resume ? load() : null;
+  if (saved){
+    idx = saved.idx || 0;
+    answers = saved.answers || {};
+    elapsed = typeof saved.elapsed === "number" ? saved.elapsed : 0;
+  } else { wipe(); idx = 0; answers = {}; elapsed = 0; }
+  pending = answers[DATA[idx].n] != null ? answers[DATA[idx].n] : null;
+  mode = "test"; startTicker(); render();
+}
+
+function advance(){
+  var q = DATA[idx];
+  if (pending != null && norm(pending)) answers[q.n] = pending;
+  if (idx === TOTAL - 1){
+    ask("Finish the test?", "You will see your full answer sheet. You cannot return to the questions.",
+        "Finish test", finish);
+    return;
+  }
+  idx++;
+  pending = answers[DATA[idx].n] != null ? answers[DATA[idx].n] : null;
+  save(); render();
+}
+
+function finish(){ stopTicker(); mode = "results"; save(); render(); }
+
+document.addEventListener("keydown", function(e){
+  if (mode !== "test") return;
+  var q = DATA[idx];
+  if (q.type === "mc"){
+    var k = e.key.toUpperCase();
+    for (var i = 0; i < q.choices.length; i++){
+      if (q.choices[i].letter === k){ pending = k; render(); return; }
+    }
+    if (e.key === "Enter") advance();
+  }
+});
+
+render();
+})();
+</script>
+</body>
+</html>
