@@ -1,0 +1,1 @@
+# shsat-math-adaptive
